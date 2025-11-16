@@ -33,6 +33,27 @@ const adminController = {
         }
     },
 
+    formDetails: async (req, res) => {
+        try {
+            const form = await adminService.formById(req.params.id);
+            if (!form) {
+                return res.status(404).json({
+                    status: 404,
+                    message: "Form id is not found."
+                })
+            }
+            return res.json({
+                success: true,
+                status: 200,
+                message: "Form details.",
+                data: form
+            });
+        } catch (error) {
+            console.error("ERROR in updateForm:", error.message);
+            return res.status(500).json({ success: false, error: error.message });
+        }
+    },
+
     deleteForm: async (req, res) => {
         try {
             await adminService.deleteForm(req.params.id);

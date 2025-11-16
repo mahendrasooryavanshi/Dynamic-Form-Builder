@@ -12,7 +12,7 @@ router.post("/forms", validateCreateForm, adminController.create);
 router.put("/forms/:id", validateUpdateForm, adminController.updateForm);
 router.delete("/forms/:id", adminController.deleteForm);
 router.get("/forms", adminController.listForms);
-
+router.get("/forms/:id", adminController.formDetails);
 //FIELD CRUD
 router.post("/forms/:id/fields", validateCreateFields, adminController.addField);
 router.put("/forms/:id/fields/:fieldId", adminController.updateField);

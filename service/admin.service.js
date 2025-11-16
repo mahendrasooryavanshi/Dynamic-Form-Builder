@@ -21,7 +21,15 @@ module.exports = {
             return false
         }
     },
-
+    formById: async (id) => {
+        try {
+            const result = await Form.findById(id)
+            console.log(result, "Result:>>>>>>>>>> backed")
+            return result
+        } catch (error) {
+            return false
+        }
+    },
     deleteForm: async (formId) => {
         try {
             return await Form.findByIdAndDelete(formId);
