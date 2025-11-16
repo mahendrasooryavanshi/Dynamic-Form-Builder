@@ -166,3 +166,50 @@ exports.validateUpdateForm = (req, res, next) => {
     req.body = value;
     next();
 };
+
+// // ADD FIELD VALIDATION
+// exports.validateAddField = (req, res, next) => {
+//     const { error, value } = fieldSchema.validate(req.body, {
+//         abortEarly: true,
+//     });
+
+//     if (error) {
+//         return res.status(422).json({
+//             success: false,
+//             status: 422,
+//             error: "Validation error",
+//             message: error.details[0].message,
+//         });
+//     }
+
+//     req.body = value;
+//     next();
+// };
+
+// // Convert fieldSchema to OPTIONAL version for Update
+// const updateFieldSchema = fieldSchema.fork(
+//     Object.keys(fieldSchema.describe().keys),
+//     (schema) => schema.optional()
+// );
+
+// // UPDATE FIELD VALIDATION
+// exports.validateUpdateField = (req, res, next) => {
+//     const { error, value } = updateFieldSchema.validate(req.body, {
+//         abortEarly: false,
+//     });
+
+//     if (error) {
+//         return res.status(422).json({
+//             success: false,
+//             message: "Validation error",
+//             errors: error.details.map((e) => e.message),
+//         });
+//     }
+
+//     req.body = value;
+//     next();
+// };
+
+
+
+

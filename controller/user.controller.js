@@ -4,7 +4,12 @@ module.exports = {
     getForm: async (req, res) => {
         try {
             const form = await userService.getForm(req.params.id);
-            return res.json({ success: true, data: form });
+            return res.status(200).json({
+                success: true,
+                status: 200,
+                message: "Form data",
+                data: form
+            });
         } catch (error) {
             return res.status(400).json({ success: false, error: error.message });
         }

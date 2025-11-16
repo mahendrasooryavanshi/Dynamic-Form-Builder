@@ -1,10 +1,11 @@
-const Form = require("../schema/form");
 
+const Form = require("../schema/form");
+const Submission = require("../schema/submission")
 module.exports = {
     // ---------------- FORM CRUD ------------------
     createForm: async (data) => {
         try {
-            await Form.create(data);
+            return await Form.create(data);
         } catch (error) {
             return false
         }
@@ -12,7 +13,7 @@ module.exports = {
 
     updateForm: async (formId, data) => {
         try {
-            await Form.findByIdAndUpdate(formId, data, {
+            return await Form.findByIdAndUpdate(formId, data, {
                 new: true,
                 runValidators: true
             });
@@ -23,17 +24,26 @@ module.exports = {
 
     deleteForm: async (formId) => {
         try {
-            await Form.findByIdAndDelete(formId);
-
+            return await Form.findByIdAndDelete(formId);
         } catch (error) {
             return false
         }
     },
 
     listForms: async (filter = {}) => {
-        return await Form.find(filter).sort({ createdAt: -1 });
+        try {
+            return await Form.find(filter).sort({ createdAt: -1 });
+        } catch (error) {
+            return false;
+        }
     },
-
+    countForms: async (query) => {
+        try {
+            return await Form.countDocuments(query)
+        } catch (error) {
+            return false;
+        }
+    },
     // --------------- FIELD CRUD -------------------
     addField: async (formId, fieldData) => {
         try {
@@ -41,7 +51,9 @@ module.exports = {
             if (!form) {
                 return false
             }
-            form.fields.push(fieldData);
+            if (Array.isArray(fieldData.fields)) {
+                form.fields.push(...fieldData.fields); // spread push
+            }
             await form.save();
             return form;
         } catch (error) {
@@ -71,9 +83,16 @@ module.exports = {
             return false
         }
     },
-    getSubmissions: async (formId) => {
+    getSubmissions: async (formId, skip, limit) => {
         try {
-            return await Submission.find({ formId }).sort({ createdAt: -1 });
+            const total = await Submission.countDocuments({ formId });
+
+            const submissions = await Submission.find({ formId })
+                .skip(skip)
+                .limit(limit)
+                .sort({ createdAt: -1 });
+
+            return { submissions, total };
         } catch (error) {
             return false
         }

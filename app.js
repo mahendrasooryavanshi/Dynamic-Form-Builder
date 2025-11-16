@@ -28,7 +28,7 @@ app.get("/health", async (req, res) => {
     return res.send({ message: "server is working fine" })
 })
 
-app.use("/", require("./route/user.route"));
+app.use("/users", require("./route/user.route"));
 app.use("/admin", require("./route/admin.route"));
 
 app.use((req, res, next) => {

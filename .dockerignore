@@ -32,3 +32,11 @@
 **/dist
 LICENSE
 README.md
+
+node_modules
+npm-debug.log
+Dockerfile
+.git
+.gitignore
+.vscode
+.env

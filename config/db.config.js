@@ -10,7 +10,7 @@ const mongooseOptions = {
     w: "majority",
     readPreference: "primaryPreferred",
 };
-const URL = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/dynamic_form_builder_app_db"
+const URL = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/dynamic_form_builder_app_db"
 
 const connnectDb = async () => {
     try {
