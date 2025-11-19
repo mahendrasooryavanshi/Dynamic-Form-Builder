@@ -4,6 +4,8 @@ const express = require("express");
 const morgan = require("morgan")
 const helmet = require("helmet")
 const cors = require("cors");
+const path = require("path")
+const fs = require("fs")
 const app = express()
 const PORT = process.env.PORT || 8000
 const connnectDb = require("./config/db.config")
@@ -12,16 +14,22 @@ app.disable('x-powered-by');
 
 app.use(helmet())  //secqure headers
 
-app.use(
-    cors({
-        origin: "*", // full open for development
-        credentials: false,
-    })
-);
+app.use(cors({
+    origin: "*",
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev")); //colored logs
+
+// Serve /public folder
+app.use(express.static(path.join(__dirname, "public")));
+
+// Serve only excel folder with URL: /excel/filename.xlsx
+app.use("/excel", express.static(path.join(__dirname, "public/excel")));
 
 app.get("/health", async (req, res) => {
     console.log(" check helth route")

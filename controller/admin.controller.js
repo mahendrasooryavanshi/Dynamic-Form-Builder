@@ -1,7 +1,12 @@
+const form = require("../schema/form");
 const adminService = require("../service/admin.service")
+const ExcelJS = require("exceljs");
+const path = require("path");
+const fs = require("fs");
 
 const adminController = {
     create: async (req, res) => {
+        console.log("Create form api is called :controller is working")
         try {
             const body = req.body
             const result = await adminService.createForm(body)
@@ -12,6 +17,7 @@ const adminController = {
                     message: "Form created successfully.."
                 })
             }
+            console.log("Return response from backend: ", result)
         } catch (error) {
             console.log("Admin create error:", error.message);
             return res.status(500).json({ error: "Internal Error" });
@@ -65,6 +71,7 @@ const adminController = {
     },
 
     listForms: async (req, res) => {
+        console.log("--------------Forms list api is called-----------")
         try {
             let page = parseInt(req.query.page) || 1;
             let limit = parseInt(req.query.limit) || 10;
@@ -79,16 +86,17 @@ const adminController = {
             const forms = await adminService.listForms(query, projection);
             // Get total count
             const total = await adminService.countForms(query);
-
-            return res.status(200).json({
-                status: 200,
-                success: true,
-                totalPages: Math.ceil(total / limit),
-                currentPage: page,
-                limit: limit,
-                totalForms: total,
-                data: forms
-            });
+            if (form && total) {
+                return res.status(200).json({
+                    status: 200,
+                    success: true,
+                    totalPages: Math.ceil(total / limit),
+                    currentPage: page,
+                    limit: limit,
+                    totalForms: total,
+                    data: forms
+                });
+            }
         } catch (error) {
             console.error("ERROR in listForms:", error.message);
             return res.status(500).json({ success: false, error: error.message });
@@ -139,7 +147,11 @@ const adminController = {
                 req.params.id,
                 req.params.fieldId
             );
-            return res.json({ success: true, data: form });
+            if (form) {
+                return res.json({ success: true, data: form });
+            } else {
+                return false;
+            }
         } catch (error) {
             console.error("ERROR in deleteField:", error.message);
             return res.status(500).json({ success: false, error: error.message });
@@ -177,8 +189,109 @@ const adminController = {
         } catch (error) {
             return res.status(400).json({ success: false, error: error.message });
         }
-    }
+    },
 
+    dashbord: async (req, res) => {
+        console.log("Dashboard controller is working")
+        try {
+            const totalFroms = await adminService.countForms()
+            const totalSubmission = await adminService.totalSumission()
+            console.log(totalFroms, totalSubmission, ">>>>>>>>> ttotalSubmission")
+            return res.status(200).json({
+                status: 200,
+                message: "success",
+                data: { totalFroms, totalSubmission }
+            })
+        } catch (error) {
+            console.log("error in server:", error.message)
+            return res.status(500).json({ success: false, error: error.message });
+        }
+    },
+    exportAllSubmissionsExcel: async (req, res) => {
+        try {
+            const submissions = await adminService.getAllSubmissions();
+
+            if (!submissions?.length) {
+                return res.status(400).json({
+                    success: false,
+                    message: "No submissions available to export"
+                });
+            }
+
+            // Create workbook
+            const workbook = new ExcelJS.Workbook();
+            const sheet = workbook.addWorksheet("All Submissions");
+
+            sheet.columns = [
+                { header: "Submission ID", key: "_id", width: 30 },
+                { header: "Form Title", key: "formTitle", width: 30 },
+                { header: "Form ID", key: "formId", width: 30 },
+                { header: "Answers", key: "answers", width: 60 },
+                { header: "Created At", key: "createdAt", width: 25 }
+            ];
+
+            submissions.forEach((sub) => {
+                sheet.addRow({
+                    _id: sub._id.toString(),
+                    formTitle: sub.formId?.title || "N/A",
+                    formId: sub.formId?._id?.toString() || "N/A",
+                    answers: JSON.stringify(sub.answers),
+                    createdAt: sub.createdAt
+                });
+            });
+
+            // -----------------------------------------------------
+            // 🔥 DYNAMIC FILE NAME GENERATION
+            // -----------------------------------------------------
+
+            let dynamicName = req.query.filename || "all-submissions";
+            dynamicName = dynamicName.replace(/\s+/g, "-").toLowerCase(); // cleanup name
+
+            const fileName = `${dynamicName}-${Date.now()}.xlsx`;
+
+            // -----------------------------------------------------
+            // 🔥 DEFINE PATHS
+            // -----------------------------------------------------
+            const publicDir = path.join(__dirname, "..", "public");
+            const excelDir = path.join(publicDir, "excel");
+
+            if (!fs.existsSync(publicDir)) fs.mkdirSync(publicDir);
+            if (!fs.existsSync(excelDir)) fs.mkdirSync(excelDir);
+
+            const filePath = path.join(excelDir, fileName);
+
+            // Save Excel
+            await workbook.xlsx.writeFile(filePath);
+
+            // Download URL
+            const downloadUrl = `${req.protocol}://${req.get("host")}/excel/${fileName}`;
+
+            // Auto delete after 30 seconds
+            setTimeout(() => {
+                if (fs.existsSync(filePath)) {
+                    fs.unlink(filePath, (err) => {
+                        if (err) console.error("Delete error:", err);
+                        else console.log("Deleted:", fileName);
+                    });
+                }
+            }, 30000);
+
+            return res.json({
+                success: true,
+                message: "Excel file generated",
+                downloadUrl,
+                fileName
+            });
+
+        } catch (error) {
+            console.error("Excel Export Error:", error);
+            res.status(500).json({
+                success: false,
+                message: "Something went wrong while generating Excel",
+                error: error.message
+            });
+        }
+    }
 };
 
 module.exports = adminController;

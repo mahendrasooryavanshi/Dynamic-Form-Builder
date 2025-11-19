@@ -21,4 +21,9 @@ router.delete("/forms/:id/fields/:fieldId", adminController.deleteField);
 //Fetch all submited form by form id
 router.get("/forms/:id/submissions", adminController.getSubmissions);
 
+// Export ALL submissions as CSV
+router.get("/submissions/export", adminController.exportAllSubmissionsExcel);
+//Admin Dashbord
+router.get("/dashboard", adminController.dashbord);
+
 module.exports = router;

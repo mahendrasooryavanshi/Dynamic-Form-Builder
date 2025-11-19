@@ -24,7 +24,6 @@ module.exports = {
     formById: async (id) => {
         try {
             const result = await Form.findById(id)
-            console.log(result, "Result:>>>>>>>>>> backed")
             return result
         } catch (error) {
             return false
@@ -38,16 +37,18 @@ module.exports = {
         }
     },
 
-    listForms: async (filter = {}) => {
+    listForms: async (filter = {}, projection) => {
         try {
             return await Form.find(filter).sort({ createdAt: -1 });
         } catch (error) {
             return false;
         }
     },
-    countForms: async (query) => {
+    countForms: async () => {
         try {
-            return await Form.countDocuments(query)
+            const countTotal = await Form.countDocuments()
+            console.log(countTotal, "countTotal:<>>>>>>>>>>>")
+            return countTotal
         } catch (error) {
             return false;
         }
@@ -101,6 +102,22 @@ module.exports = {
                 .sort({ createdAt: -1 });
 
             return { submissions, total };
+        } catch (error) {
+            return false
+        }
+    },
+    totalSumission: async (data = {}) => {
+        try {
+            const totalSubmission = await Submission.countDocuments();
+            console.log("totalSubmission: ", totalSubmission)
+            return totalSubmission
+        } catch (error) {
+            return false
+        }
+    },
+    getAllSubmissions: async (data) => {
+        try {
+            return await Submission.find()
         } catch (error) {
             return false
         }
