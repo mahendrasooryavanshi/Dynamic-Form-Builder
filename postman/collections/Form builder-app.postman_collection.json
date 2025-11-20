@@ -1,0 +1,613 @@
+{
+  "info": {
+    "_postman_id": "5b417871-6a2d-4743-af77-46edd714185d",
+    "name": "Form builder-app",
+    "description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" width=\"2162\" height=\"1530\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "34596551"
+  },
+  "item": [
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "fields",
+          "item": [
+            {
+              "name": "add-fields",
+              "id": "2b635d94-23f9-4d5b-9c0a-48b2cb591f02",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "password",
+                      "value": "admin@123",
+                      "type": "string"
+                    },
+                    {
+                      "key": "username",
+                      "value": "admin",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fields\": [\n    {\n      \"label\": \"Full Name\",\n      \"type\": \"text\",\n      \"name\": \"fullName\",\n      \"required\": true,\n      \"order\": 1\n    },\n    {\n      \"label\": \"Email\",\n      \"type\": \"email\",\n      \"name\": \"email\",\n      \"required\": true,\n      \"order\": 2,\n      \"validation\": {\n        \"regex\": \"^\\\\S+@\\\\S+\\\\.\\\\S+$\"\n      }\n    },\n    {\n      \"label\": \"Gender\",\n      \"type\": \"radio\",\n      \"name\": \"gender\",\n      \"required\": true,\n      \"order\": 3,\n      \"options\": [\n        {\n          \"label\": \"Male\",\n          \"value\": \"male\"\n        },\n        {\n          \"label\": \"Female\",\n          \"value\": \"female\",\n          \"conditionalFields\": [\n            {\n              \"label\": \"Are you pregnant?\",\n              \"type\": \"checkbox\",\n              \"name\": \"pregnant\",\n              \"required\": false,\n              \"order\": 1\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"label\": \"Age\",\n      \"type\": \"number\",\n      \"name\": \"age\",\n      \"required\": false,\n      \"order\": 4,\n      \"validation\": {\n        \"min\": 18,\n        \"max\": 60\n      }\n    }\n  ]\n}\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BASE_URL}}admin/forms/69198e63cd0fd9958a4ad297/fields",
+                  "host": [
+                    "{{BASE_URL}}admin"
+                  ],
+                  "path": [
+                    "forms",
+                    "69198e63cd0fd9958a4ad297",
+                    "fields"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "update-field",
+              "id": "2666e8ef-e61a-4fa3-9924-356ddfe9f376",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "password",
+                      "value": "admin@123",
+                      "type": "string"
+                    },
+                    {
+                      "key": "username",
+                      "value": "admin",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{BASE_URL}}admin/forms/69198e63cd0fd9958a4ad297/fields",
+                  "host": [
+                    "{{BASE_URL}}admin"
+                  ],
+                  "path": [
+                    "forms",
+                    "69198e63cd0fd9958a4ad297",
+                    "fields"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "f1cb2dee-29b6-41bb-9f8a-ff6a4e6518e1"
+        },
+        {
+          "name": "create",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "06a9ed66-f1ce-4011-83a7-b3cb00775e86",
+                "exec": [
+                  "pm.test(\"Successful POST request\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "a01b3b4a-a1b1-4b6a-a5d7-65ceb5ec9d73",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "339e4678-a33d-4237-abf7-a1709c7a0222",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "admin@123",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"adding filed 3 \",\n  \"description\": \"Fill your personal, work and gender details\",\n  \"fields\": [\n    {\n      \"label\": \"Full Name\",\n      \"type\": \"text\",\n      \"name\": \"fullName\",\n      \"required\": true,\n      \"order\": 1\n    },\n    {\n      \"label\": \"Email\",\n      \"type\": \"email\",\n      \"name\": \"email\",\n      \"required\": true,\n      \"order\": 2,\n      \"validation\": {\n        \"regex\": \"^\\\\S+@\\\\S+\\\\.\\\\S+$\"\n      }\n    },\n    {\n      \"label\": \"Gender\",\n      \"type\": \"radio\",\n      \"name\": \"gender\",\n      \"required\": true,\n      \"order\": 3,\n      \"options\": [\n        {\n          \"label\": \"Male\",\n          \"value\": \"male\"\n        },\n        {\n          \"label\": \"Female\",\n          \"value\": \"female\",\n          \"conditionalFields\": [\n            {\n              \"label\": \"Are you pregnant?\",\n              \"type\": \"checkbox\",\n              \"name\": \"pregnant\",\n              \"required\": false,\n              \"order\": 1\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"label\": \"Age\",\n      \"type\": \"number\",\n      \"name\": \"age\",\n      \"required\": false,\n      \"order\": 4,\n      \"validation\": {\n        \"min\": 18,\n        \"max\": 60\n      }\n    }\n  ]\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}admin/forms",
+              "host": [
+                "{{BASE_URL}}admin"
+              ],
+              "path": [
+                "forms"
+              ]
+            },
+            "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+          },
+          "response": []
+        },
+        {
+          "name": "form list",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "14fbcb12-1e4b-4a08-9966-1e24f9c40843",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "3d998ed1-b0b3-4a03-89ad-4f26e0f946cd",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "bfd40f1b-4b51-49a3-aed1-1528c236a144",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "admin@123",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/forms",
+              "host": [
+                "{{BASE_URL}}admin"
+              ],
+              "path": [
+                "forms"
+              ]
+            },
+            "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+          },
+          "response": []
+        },
+        {
+          "name": "edit form",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "499c93eb-6477-4e65-9bc9-1a985d1a7253",
+                "exec": [
+                  "pm.test(\"Successful PUT request\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 204]);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "894dc209-1501-40db-8624-0a9ed54e6f7b",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "ba9dce94-d5bd-43fa-bc61-c94816c1ef05",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "admin@123",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"M-2\",\n  \"description\": \"Fill your personal, work and gender details\",\n  \"fields\": [\n    {\n      \"label\": \"Full Name\",\n      \"type\": \"text\",\n      \"name\": \"fullName\",\n      \"required\": true,\n      \"order\": 1\n    },\n    {\n      \"label\": \"Email\",\n      \"type\": \"email\",\n      \"name\": \"email\",\n      \"required\": true,\n      \"order\": 2,\n      \"validation\": {\n        \"regex\": \"^\\\\S+@\\\\S+\\\\.\\\\S+$\"\n      }\n    },\n    {\n      \"label\": \"Gender\",\n      \"type\": \"radio\",\n      \"name\": \"gender\",\n      \"required\": true,\n      \"order\": 3,\n      \"options\": [\n        {\n          \"label\": \"Male\",\n          \"value\": \"male\"\n        },\n        {\n          \"label\": \"Female\",\n          \"value\": \"female\",\n          \"conditionalFields\": [\n            {\n              \"label\": \"Are you pregnant?\",\n              \"type\": \"checkbox\",\n              \"name\": \"pregnant\",\n              \"required\": false,\n              \"order\": 1\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"label\": \"Age\",\n      \"type\": \"number\",\n      \"name\": \"age\",\n      \"required\": false,\n      \"order\": 4,\n      \"validation\": {\n        \"min\": 18,\n        \"max\": 60\n      }\n    }\n  ]\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}admin/forms/69197fdcc3fa34956a4d2bf8",
+              "host": [
+                "{{BASE_URL}}admin"
+              ],
+              "path": [
+                "forms",
+                "69197fdcc3fa34956a4d2bf8"
+              ]
+            },
+            "description": "This is a PUT request and it is used to overwrite an existing piece of data. For instance, after you create an entity with a POST request, you may want to modify that later. You can do that using a PUT request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful PUT request typically returns a `200 OK`, `201 Created`, or `204 No Content` response code."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "c186ab68-08d5-4ed2-a2fd-7ffcca19a924",
+                "exec": [
+                  "pm.test(\"Successful DELETE request\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 202, 204]);",
+                  "});",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "69dba434-c767-4601-9d1b-3777fcf46882",
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "id": "d94eb46c-41d1-45f6-a171-c50ca8dc0049",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "admin@123",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}admin/forms/6919809abaef4910c7b308e7",
+              "host": [
+                "{{BASE_URL}}admin"
+              ],
+              "path": [
+                "forms",
+                "6919809abaef4910c7b308e7"
+              ]
+            },
+            "description": "This is a DELETE request, and it is used to delete data that was previously created via a POST request. You typically identify the entity being updated by including an identifier in the URL (eg. `id=1`).\n\nA successful DELETE request typically returns a `200 OK`, `202 Accepted`, or `204 No Content` response code."
+          },
+          "response": []
+        },
+        {
+          "name": "Submmited forms list",
+          "id": "4bfc72b4-4c11-4c70-a796-310143836a7e",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "admin@123",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/forms/6919977a9926c830459b35ae/submissions",
+              "host": [
+                "{{BASE_URL}}admin"
+              ],
+              "path": [
+                "forms",
+                "6919977a9926c830459b35ae",
+                "submissions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "formDetails by id",
+          "id": "077cb50e-3afe-48fb-95c1-e750406e6130",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "admin@123",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/forms/69198e63cd0fd9958a4ad297",
+              "host": [
+                "{{BASE_URL}}admin"
+              ],
+              "path": [
+                "forms",
+                "69198e63cd0fd9958a4ad297"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "dashboard",
+          "id": "b12031a6-c115-4e38-8030-90e62cb06cee",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "admin@123",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/dashboard",
+              "host": [
+                "{{BASE_URL}}admin"
+              ],
+              "path": [
+                "dashboard"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "id": "3c08b19c-9206-4b17-87d1-546a6b7da240",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "admin@123",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/submissions/export",
+              "host": [
+                "{{BASE_URL}}admin"
+              ],
+              "path": [
+                "submissions",
+                "export"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "a00467a2-9f6f-41e7-a6a2-2b7990417b66"
+    },
+    {
+      "name": "Public User",
+      "item": [
+        {
+          "name": "fetch-form-by id",
+          "id": "644dd460-5c66-4ce2-92b3-0603fe9824a9",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}users/forms/6919977a9926c830459b35ae",
+              "host": [
+                "{{BASE_URL}}users"
+              ],
+              "path": [
+                "forms",
+                "6919977a9926c830459b35ae"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "submit form",
+          "id": "ea254d3c-48b1-4e7d-8e47-01d8f66eeb65",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"fullName\": \"Mahendra Suryawanshi\",\r\n  \"email\": \"mahendra@example.com\",\r\n  \"gender\": \"male\",\r\n  \"pregnant\": false,\r\n  \"age\": 28\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}users/forms/6919977a9926c830459b35ae/submit",
+              "host": [
+                "{{BASE_URL}}users"
+              ],
+              "path": [
+                "forms",
+                "6919977a9926c830459b35ae",
+                "submit"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "cbb4291b-8d95-4191-95d7-e99b9985d63f"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "id": "b54c437b-d503-46ae-b9c3-867e12332373",
+      "key": "id",
+      "value": "1"
+    },
+    {
+      "id": "e0bdac94-909c-42c2-9007-cffc0d8c5065",
+      "key": "base_url",
+      "value": "https://template.postman-echo.com"
+    }
+  ]
+}
